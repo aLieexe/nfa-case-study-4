@@ -51,7 +51,7 @@ pipeline {
       steps {
         script {
           echo "🚀 deploying to kubernetes via helm..."
-          sh '''
+          sh """
             # use the copied kubeconfig file
             export KUBECONFIG=/var/lib/jenkins/kubeconfig
             
@@ -60,11 +60,11 @@ pipeline {
             kubectl get nodes
             
             # deploy with helm
-            helm upgrade --install $helmRelease ./helm \
-              --set image.repository=$dockerImage \
-              --set image.tag=$imageTag \
-              --namespace $namespace --create-namespace
-          '''
+            helm upgrade --install ${helmRelease} ./helm \
+              --set image.repository=${dockerImage} \
+              --set image.tag=${imageTag} \
+              --namespace ${namespace} --create-namespace
+          """
         }
       }
     }
