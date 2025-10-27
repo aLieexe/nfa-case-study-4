@@ -60,10 +60,10 @@ pipeline {
             kubectl get nodes
             
             # deploy with helm
-            helm upgrade --install ${helmRelease} ./helm \
-              --set image.repository=${dockerImage} \
-              --set image.tag=${imageTag} \
-              --namespace ${namespace} --create-namespace
+            helm upgrade --install ${HELM_RELEASE} ./helm \
+              --set image.repository=${IMAGE} \
+              --set image.tag=${TAG} \
+              --namespace ${NAMESPACE} --create-namespace
           """
         }
       }
