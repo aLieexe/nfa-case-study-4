@@ -15,7 +15,7 @@ pipeline {
   stages {
     stage('Checkout Source Code') {
       steps {
-        git url: ${GIT_URL}, branch: ${GIT_BRANCH}
+        git url: "${GIT_URL}", branch: "${GIT_BRANCH}"
       }
     }
 
