@@ -46,19 +46,25 @@ pipeline {
       }
     }
 
+
     stage('Deploy to Kubernetes (Helm)') {
       steps {
-        withCredentials([file(credentialsId: "${KUBECONFIG_CRED}", variable: 'KUBE_FILE')]) {
-          script {
-            echo "🚀 Deploying to Kubernetes via Helm..."
-            sh '''
-              export KUBECONFIG=$KUBE_FILE
-              helm upgrade --install $HELM_RELEASE ./helm \
-                --set image.repository=$IMAGE \
-                --set image.tag=$TAG \
-                --namespace $NAMESPACE --create-namespace
-            '''
-          }
+        script {
+          echo "🚀 deploying to kubernetes via helm..."
+          sh '''
+            # use the copied kubeconfig file
+            export KUBECONFIG=/var/lib/jenkins/kubeconfig
+            
+            # verify connection
+            kubectl cluster-info
+            kubectl get nodes
+            
+            # deploy with helm
+            helm upgrade --install $helmRelease ./helm \
+              --set image.repository=$dockerImage \
+              --set image.tag=$imageTag \
+              --namespace $namespace --create-namespace
+          '''
         }
       }
     }
