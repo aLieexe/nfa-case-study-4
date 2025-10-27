@@ -1,0 +1,4 @@
+image:
+  repository: alie12/nfa-case4
+  tag: latest
+replicaCount: 1
